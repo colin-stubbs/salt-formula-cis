@@ -1,0 +1,109 @@
+cis:
+  lookup:
+    pkgs:
+      java: java-1.8.0-openjdk
+      tomcat: tomcat
+  java:
+    macos:
+      pkg_version: ''
+      pkg_source: ''
+      pkg_hash: ''
+  audit:
+    tool: cis_cat
+    scheduler: 'salt'
+    schedule:
+      days: 7
+    format: 'html'
+    destination: 'local'
+    timestamp: False
+    timestamp_format: '%Y%m%d%H%M%S'
+    hash: False
+    hash_exec: sha256sum
+    compress: False
+    compress_exec: bzip2
+    ccpd:
+      url: 'http://localhost:8080/CCPD'
+      token: ''
+      remove_report_from_minion: True
+    master:
+      upload_path: ''
+      remove_report_from_minion: True
+    s3:
+      bucket: ''
+      path: ''
+      args: {}
+      remove_report_from_minion: False
+    curl:
+      args: ''
+      url: ''
+      method: POST
+      headers: []
+      remove_report_from_minion: False
+  openscap:
+    oscap:
+      arguments: ''
+      verbose_log: ''
+      verbose_level: WARNING
+      profile: ''
+      benchmark: ''
+  cis_cat:
+    auto_assess: 1
+    assessor:
+      arguments: '--accept-terms'
+      java_args: '-Xmx768m'
+      enforce_toplevel: False
+      profile: ''
+      benchmark: ''
+    dashboard:
+      java_args: '-Xms1024M -Xmx2048M'
+      mysqld:
+        manage: False
+        admin_user: 'root'
+        admin_password: ''
+      tomcat:
+        manage: True
+        use_system_package: True
+        create_user: False
+        create_group: False
+        cache_size: 102400
+      config:
+        environments:
+          production:
+            grails:
+              serverURL: 'http://localhost:8080/CCPD'
+            server:
+              contextPath: '/CCPD'
+            dataSource:
+              dbCreate: update
+              driverClassName: com.mysql.cj.jdbc.Driver
+              dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+              url: jdbc:mysql://FIX_ME:3306/FIX_ME
+              username: FIX_ME
+              password: FIX_ME
+              properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 50
+                minIdle: 5
+                maxIdle: 25
+                maxWait: 10000
+                maxAge: 600000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                defaultTransactionIsolation: 2
+                dbProperties:
+                  autoReconnect: true
+        grails:
+          mail:
+            host: smtp.gmail.com
+            port: 465
+            username: FIX_ME
+            password: FIX_ME
+            props:
+              mail.transport.protocol: "smtps"
+              mail.smtp.port: "465"
+              mail.smtp.auth: "true"
+              mail.smtp.starttls.enable: "true"
+              mail.smtp.starttls.required: "true"
+        database: MySQL

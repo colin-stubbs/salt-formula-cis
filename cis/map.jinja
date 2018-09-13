@@ -1,0 +1,237 @@
+{% import_yaml 'cis/defaults.yaml' as default_settings %}
+
+{% if grains.kernel == 'Linux' %}
+{# determine appropriate basic profile and benchmark #}
+{# use os_family, os and osmajorrelease #}
+
+{% if grains.os_family == 'RedHat' %}
+{% endif %}
+
+
+{% elif grains.kernel == 'Darwin' %}
+{# determine appropriate basic profile and benchmark #}
+{# use osrelease to determine version #}
+
+{% elif grains.kernel == 'Windows' %}
+{# determine appropriate basic profile and benchmark #}
+
+{% endif %}
+
+{% set os_map = salt['grains.filter_by']({
+  'default': {
+    'profile': '',
+    'benchmark': '',
+    'pkgs': {
+      'java': 'java-1.8.0-openjdk',
+      'tomcat': 'tomcat',
+      'openscap_scanner': 'openscap-scanner',
+      'scap_security_guide': 'scap-security-guide'
+    },
+    'users': {
+      'owner': 'root',
+      'group': 'root'
+    },
+    'tomcat': {
+      'user': 'tomcat',
+      'uid': 53,
+      'group': 'tomcat',
+      'gid': 53,
+      'service': 'tomcat'
+    },
+    'locations': {
+      'openscap': {
+        'oscap': {
+          'benchmarks': '/usr/share/xml/scap/ssg/content',
+          'reports': '/var/log/oscap'
+        },
+      },
+      'cis_cat': {
+        'assessor': {
+          'install': '/opt/cis/cis-cat/assessor',
+          'reports': '/opt/cis/cis-cat/reports'
+        },
+        'dashboard': {
+          'install': '/opt/cis/cis-cat/dashboard',
+          'logs': '/var/log/cis-cat',
+          'legacy': '/var/spool/cis-cat/dashboard',
+          'ccpd_config_yml': '/opt/cis/cis-cat/dashboard/ccpd-config.yml'
+        },
+      },
+      'tomcat': {
+        'system': {
+          'config_dir': '/etc/tomcat',
+          'webapps_dir': '/var/lib/tomcat/webapps'
+        },
+        'manual': {
+          'install_dir': '/opt/cis/cis-cat/tomcat'
+        },
+      },
+    },
+  },
+  'Debian': {
+    'profile': '',
+    'benchmark': '',
+    'pkgs': {
+      'java': 'openjdk-8-jre',
+      'tomcat': 'tomcat',
+      'openscap_scanner': 'openscap-scanner',
+      'scap_security_guide': 'scap-security-guide'
+    },
+    'users': {
+      'owner': 'root',
+      'group': 'root'
+    },
+    'tomcat': {
+      'user': 'tomcat',
+      'uid': 53,
+      'group': 'tomcat',
+      'gid': 53,
+      'service': 'tomcat'
+    },
+    'locations': {
+      'openscap': {
+        'oscap': {
+          'benchmarks': '/usr/share/xml/scap/ssg/content',
+          'reports': '/var/log/oscap'
+        },
+      },
+      'cis_cat': {
+        'assessor': {
+          'install': '/opt/cis/cis-cat/assessor',
+          'reports': '/opt/cis/cis-cat/reports'
+        },
+        'dashboard': {
+          'install': '/opt/cis/cis-cat/dashboard',
+          'logs': '/var/log/cis-cat',
+          'legacy': '/var/spool/cis-cat/dashboard',
+          'ccpd_config_yml': '/opt/cis/cis-cat/dashboard/ccpd-config.yml'
+        },
+      },
+      'tomcat': {
+        'install': '/opt/tomcat',
+        'logs': '/opt/tomcat/logs',
+        'webapps': '/opt/tomcat/webapps'
+      },
+    },
+  },
+  'Ubuntu': {
+    'profile': '',
+    'benchmark': '',
+    'pkgs': {
+      'java': 'openjdk-9-jre',
+      'tomcat': 'tomcat',
+      'openscap_scanner': 'openscap-scanner',
+      'scap_security_guide': 'scap-security-guide'
+    },
+    'users': {
+      'owner': 'root',
+      'group': 'root'
+    },
+    'tomcat': {
+      'user': 'tomcat',
+      'uid': 53,
+      'group': 'tomcat',
+      'gid': 53,
+      'service': 'tomcat'
+    },
+    'locations': {
+      'openscap': {
+        'oscap': {
+          'benchmarks': '/usr/share/xml/scap/ssg/content',
+          'reports': '/var/log/oscap'
+        },
+      },
+      'cis_cat': {
+        'assessor': {
+          'install': '/opt/cis/cis-cat/assessor',
+          'reports': '/opt/cis/cis-cat/reports'
+        },
+        'dashboard': {
+          'install': '/opt/cis/cis-cat/dashboard',
+          'logs': '/var/log/cis-cat',
+          'legacy': '/var/spool/cis-cat/dashboard',
+          'ccpd_config_yml': '/opt/cis/cis-cat/dashboard/ccpd-config.yml'
+        },
+      },
+      'tomcat': {
+        'install': '/opt/tomcat',
+        'logs': '/opt/tomcat/logs',
+        'webapps': '/opt/tomcat/webapps'
+      },
+    },
+  },
+  'MacOS': {
+    'profile': '',
+    'benchmark': '',
+    'pkgs': {
+      'java': 'jre8',
+      'tomcat': 'tomcat'
+    },
+    'users': {
+      'owner': 'root',
+      'group': 'wheel'
+    },
+    'tomcat': {
+      'user': 'root',
+      'uid': 0,
+      'group': 'wheel',
+      'gid': 0,
+    },
+    'locations': {
+      'cis_cat': {
+        'assessor': {
+          'install': '/opt/cis/cis-cat/assessor',
+          'reports': '/opt/cis/cis-cat/reports'
+        },
+      },
+    },
+  },
+  'Windows': {
+    'profile': '',
+    'benchmark': '',
+    'pkgs': {
+      'java': 'jre10',
+      'tomcat': 'tomcat'
+    },
+    'users': {
+      'owner': 'root',
+      'group': 'root'
+    },
+    'tomcat': {
+      'user': 'tomcat',
+      'uid': 53,
+      'group': 'tomcat',
+      'gid': 53,
+      'service': 'tomcat'
+    },
+    'locations': {
+      'cis_cat': {
+        'assessor': {
+          'install': 'c:/cis/cis-cat/assessor',
+          'reports': 'c:/cis/cis-cat/reports'
+        },
+        'dashboard': {
+          'install': 'c:/cis/cis-cat/dashboard',
+          'logs': 'c:/cis/cis-cat/logs',
+          'legacy': 'c:/cis/cis-cat/reports',
+          'ccpd_config_yml': 'c:/cis/cis-cat/dashboard/ccpd-config.yml'
+        },
+      },
+      'tomcat': {
+        'install': '/opt/tomcat',
+        'logs': '/opt/tomcat/logs',
+        'webapps': '/opt/tomcat/webapps'
+      },
+    },
+  },
+}, grain='os', default='default', merge=salt['pillar.get']('cis:lookup', {}))
+%}
+
+{% do default_settings.cis.lookup.update(os_map) %}
+
+{% set cis_settings = salt['pillar.get'](
+    'cis',
+    default=default_settings.cis,
+    merge=True
+  )
+%}
