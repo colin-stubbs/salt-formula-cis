@@ -90,6 +90,8 @@ s3_report_push:
       bucket: {{ cis_settings.audit.s3.bucket }}
       path: {{ report_file }}
       local_file: {{ reports_dir }}/{{ report_file }}
+      headers:
+        Content-Type: text/{{ cis_settings.audit.format }}
     - require:
       - event: cis/audit/report/available
 {% endif %}

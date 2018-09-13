@@ -266,9 +266,8 @@ def put(bucket, path=None, return_bin=False, action=None, local_file=None,
 
     if not headers:
         headers = {}
-
-    headers['Content-Type'] = 'text/html'
-    full_headers = True
+    else:
+        full_headers = True
 
     key, keyid, service_url, verify_ssl, kms_keyid, location, role_arn, path_style, https_enable = _get_key(
         key,
