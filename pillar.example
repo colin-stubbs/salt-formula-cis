@@ -8,7 +8,7 @@ cis:
     macos:
       pkg_version: 10.0.2
       pkg_source: https://your.hosting.location/jdk-10.0.2-x64.pkg
-      pkg_hash: https://your.hosting.location/files/jdk-10.0.2-x64.pkg.sha256sum
+      pkg_hash: https://your.hosting.location/jdk-10.0.2-x64.pkg.sha256sum
   audit:
     destination: master
     hash: True
@@ -26,7 +26,7 @@ cis:
     assessor:
       source: 'https://your.hosting.location/cis/ciscat-full-bundle-2018-08-14-v3.0.51.tar.bz2'
       source_hash: 'https://your.hosting.location/cis/ciscat-full-bundle-2018-08-14-v3.0.51.tar.bz2.sha256sum'
-      auto_assess: 1
+      auto_assess: 2
 {% if grains.os == 'MacOS' %}
       profile: 'xccdf_org.cisecurity.benchmarks_profile_Level_2'
       benchmark: 'CIS_Apple_OSX_10.12_Benchmark_v1.0.0.xml'
